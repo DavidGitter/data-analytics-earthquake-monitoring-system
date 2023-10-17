@@ -1,0 +1,37 @@
+# commands to install eqms using argocd
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: eqms-test-repo
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  url: https://github.com/DavidGitter/data-analytics-earthquake-monitoring-system.git
+  name: data-analytics-earthquake-monitoring-system
+  type: git
+
+---
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: eqms
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/DavidGitter/data-analytics-earthquake-monitoring-system.git
+    path: src/eqms
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: default
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: false
