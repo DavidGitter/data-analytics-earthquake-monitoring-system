@@ -1,0 +1,623 @@
+{
+    "features": [
+        {
+            "geometry": {
+                "coordinates": [
+                    -117.503,
+                    37.0008,
+                    3.3
+                ],
+                "type": "Point"
+            },
+            "id": "nn00863769",
+            "type": "Feature",
+            "properties": {
+                "dmin": 0.109,
+                "code": "00863769",
+                "sources": ",nn,",
+                "tz": null,
+                "mmi": null,
+                "type": "earthquake",
+                "title": "M 2.2 - 65 km ENE of Independence, California",
+                "magType": "ml",
+                "nst": 25,
+                "sig": 74,
+                "tsunami": 0,
+                "mag": 2.2,
+                "alert": null,
+                "gap": 190.93,
+                "rms": 0.2738,
+                "place": "65 km ENE of Independence, California",
+                "net": "nn",
+                "types": ",origin,phase-data,",
+                "felt": null,
+                "cdi": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/nn00863769",
+                "ids": ",nn00863769,",
+                "time": 1690829691340,
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=nn00863769&format=geojson",
+                "updated": 1690829828262,
+                "status": "automatic"
+            }
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    -153.1123,
+                    56.2047,
+                    16.6
+                ],
+                "type": "Point"
+            },
+            "id": "ak0239qwyqyv",
+            "type": "Feature",
+            "properties": {
+                "dmin": null,
+                "code": "0239qwyqyv",
+                "sources": ",ak,",
+                "tz": null,
+                "mmi": null,
+                "type": "earthquake",
+                "title": "M 2.4 - Kodiak Island region, Alaska",
+                "magType": "ml",
+                "nst": null,
+                "sig": 89,
+                "tsunami": 0,
+                "mag": 2.4,
+                "alert": null,
+                "gap": null,
+                "rms": 0.6,
+                "place": "Kodiak Island region, Alaska",
+                "net": "ak",
+                "types": ",origin,phase-data,",
+                "felt": null,
+                "cdi": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/ak0239qwyqyv",
+                "ids": ",ak0239qwyqyv,",
+                "time": 1690829583853,
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=ak0239qwyqyv&format=geojson",
+                "updated": 1690829789483,
+                "status": "automatic"
+            }
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    -153.1869,
+                    59.968,
+                    0.0
+                ],
+                "type": "Point"
+            },
+            "id": "ak0239qwybte",
+            "type": "Feature",
+            "properties": {
+                "dmin": null,
+                "code": "0239qwybte",
+                "sources": ",ak,",
+                "tz": null,
+                "mmi": null,
+                "type": "earthquake",
+                "title": "M 0.9 - Southern Alaska",
+                "magType": "ml",
+                "nst": null,
+                "sig": 12,
+                "tsunami": 0,
+                "mag": 0.9,
+                "alert": null,
+                "gap": null,
+                "rms": 0.96,
+                "place": "Southern Alaska",
+                "net": "ak",
+                "types": ",origin,phase-data,",
+                "felt": null,
+                "cdi": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/ak0239qwybte",
+                "ids": ",ak0239qwybte,",
+                "time": 1690829469306,
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=ak0239qwybte&format=geojson",
+                "updated": 1690829591349,
+                "status": "automatic"
+            }
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    -155.2439,
+                    58.1781,
+                    0.1
+                ],
+                "type": "Point"
+            },
+            "id": "ak0239qwvfma",
+            "type": "Feature",
+            "properties": {
+                "dmin": null,
+                "code": "0239qwvfma",
+                "sources": ",ak,",
+                "tz": null,
+                "mmi": null,
+                "type": "earthquake",
+                "title": "M 0.9 - 82 km NW of Karluk, Alaska",
+                "magType": "ml",
+                "nst": null,
+                "sig": 12,
+                "tsunami": 0,
+                "mag": 0.9,
+                "alert": null,
+                "gap": null,
+                "rms": 0.47,
+                "place": "82 km NW of Karluk, Alaska",
+                "net": "ak",
+                "types": ",origin,phase-data,",
+                "felt": null,
+                "cdi": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/ak0239qwvfma",
+                "ids": ",ak0239qwvfma,",
+                "time": 1690828678962,
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=ak0239qwvfma&format=geojson",
+                "updated": 1690828814302,
+                "status": "automatic"
+            }
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    -155.2829,
+                    58.1856,
+                    1.2
+                ],
+                "type": "Point"
+            },
+            "id": "ak0239qwtmvr",
+            "type": "Feature",
+            "properties": {
+                "dmin": null,
+                "code": "0239qwtmvr",
+                "sources": ",ak,",
+                "tz": null,
+                "mmi": null,
+                "type": "earthquake",
+                "title": "M 0.1 - Alaska Peninsula",
+                "magType": "ml",
+                "nst": null,
+                "sig": 0,
+                "tsunami": 0,
+                "mag": 0.1,
+                "alert": null,
+                "gap": null,
+                "rms": 0.64,
+                "place": "Alaska Peninsula",
+                "net": "ak",
+                "types": ",origin,phase-data,",
+                "felt": null,
+                "cdi": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/ak0239qwtmvr",
+                "ids": ",ak0239qwtmvr,",
+                "time": 1690828159919,
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=ak0239qwtmvr&format=geojson",
+                "updated": 1690828269195,
+                "status": "automatic"
+            }
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    -122.8026657,
+                    38.836834,
+                    2.54
+                ],
+                "type": "Point"
+            },
+            "id": "nc73918776",
+            "type": "Feature",
+            "properties": {
+                "dmin": 0.009751,
+                "code": "73918776",
+                "sources": ",nc,",
+                "tz": null,
+                "mmi": null,
+                "type": "earthquake",
+                "title": "M 0.4 - 7 km WNW of Cobb, CA",
+                "magType": "md",
+                "nst": 7,
+                "sig": 2,
+                "tsunami": 0,
+                "mag": 0.38,
+                "alert": null,
+                "gap": 114.0,
+                "rms": 0.01,
+                "place": "7 km WNW of Cobb, CA",
+                "net": "nc",
+                "types": ",nearby-cities,origin,phase-data,",
+                "felt": null,
+                "cdi": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/nc73918776",
+                "ids": ",nc73918776,",
+                "time": 1690828130390,
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=nc73918776&format=geojson",
+                "updated": 1690828227829,
+                "status": "automatic"
+            }
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    -122.7648315,
+                    38.7975006,
+                    0.55
+                ],
+                "type": "Point"
+            },
+            "id": "nc73918771",
+            "type": "Feature",
+            "properties": {
+                "dmin": 0.005073,
+                "code": "73918771",
+                "sources": ",nc,",
+                "tz": null,
+                "mmi": null,
+                "type": "earthquake",
+                "title": "M 1.0 - 2 km NNW of The Geysers, CA",
+                "magType": "md",
+                "nst": 5,
+                "sig": 16,
+                "tsunami": 0,
+                "mag": 1.01,
+                "alert": null,
+                "gap": 130.0,
+                "rms": 0.12,
+                "place": "2 km NNW of The Geysers, CA",
+                "net": "nc",
+                "types": ",nearby-cities,origin,phase-data,",
+                "felt": null,
+                "cdi": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/nc73918771",
+                "ids": ",nc73918771,",
+                "time": 1690828002270,
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=nc73918771&format=geojson",
+                "updated": 1690828097976,
+                "status": "automatic"
+            }
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    -116.3003333,
+                    34.7273333,
+                    7.79
+                ],
+                "type": "Point"
+            },
+            "id": "ci39626242",
+            "type": "Feature",
+            "properties": {
+                "dmin": 0.1057,
+                "code": "39626242",
+                "sources": ",ci,",
+                "tz": null,
+                "mmi": null,
+                "type": "earthquake",
+                "title": "M 1.4 - 13 km W of Ludlow, CA",
+                "magType": "ml",
+                "nst": 15,
+                "sig": 28,
+                "tsunami": 0,
+                "mag": 1.35,
+                "alert": null,
+                "gap": 46.0,
+                "rms": 0.14,
+                "place": "13 km W of Ludlow, CA",
+                "net": "ci",
+                "types": ",nearby-cities,origin,phase-data,scitech-link,",
+                "felt": null,
+                "cdi": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/ci39626242",
+                "ids": ",ci39626242,",
+                "time": 1690827525730,
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=ci39626242&format=geojson",
+                "updated": 1690828809488,
+                "status": "reviewed"
+            }
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    -150.1117,
+                    61.8445,
+                    5.3
+                ],
+                "type": "Point"
+            },
+            "id": "ak0239qwr9cx",
+            "type": "Feature",
+            "properties": {
+                "dmin": null,
+                "code": "0239qwr9cx",
+                "sources": ",ak,",
+                "tz": null,
+                "mmi": null,
+                "type": "earthquake",
+                "title": "M 0.9 - 11 km NNW of Willow, Alaska",
+                "magType": "ml",
+                "nst": null,
+                "sig": 12,
+                "tsunami": 0,
+                "mag": 0.9,
+                "alert": null,
+                "gap": null,
+                "rms": 0.72,
+                "place": "11 km NNW of Willow, Alaska",
+                "net": "ak",
+                "types": ",origin,phase-data,",
+                "felt": null,
+                "cdi": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/ak0239qwr9cx",
+                "ids": ",ak0239qwr9cx,",
+                "time": 1690827491535,
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=ak0239qwr9cx&format=geojson",
+                "updated": 1690827608470,
+                "status": "automatic"
+            }
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    -122.8156662,
+                    38.8223343,
+                    1.58
+                ],
+                "type": "Point"
+            },
+            "id": "nc73918766",
+            "type": "Feature",
+            "properties": {
+                "dmin": 0.004495,
+                "code": "73918766",
+                "sources": ",nc,",
+                "tz": null,
+                "mmi": null,
+                "type": "earthquake",
+                "title": "M 0.4 - 7 km NW of The Geysers, CA",
+                "magType": "md",
+                "nst": 8,
+                "sig": 2,
+                "tsunami": 0,
+                "mag": 0.38,
+                "alert": null,
+                "gap": 99.0,
+                "rms": 0.03,
+                "place": "7 km NW of The Geysers, CA",
+                "net": "nc",
+                "types": ",nearby-cities,origin,phase-data,",
+                "felt": null,
+                "cdi": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/nc73918766",
+                "ids": ",nc73918766,",
+                "time": 1690827236480,
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=nc73918766&format=geojson",
+                "updated": 1690827332504,
+                "status": "automatic"
+            }
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    -116.3983333,
+                    33.3203333,
+                    6.43
+                ],
+                "type": "Point"
+            },
+            "id": "ci39626234",
+            "type": "Feature",
+            "properties": {
+                "dmin": 0.05433,
+                "code": "39626234",
+                "sources": ",ci,",
+                "tz": null,
+                "mmi": null,
+                "type": "earthquake",
+                "title": "M 0.8 - 8 km NNW of Borrego Springs, CA",
+                "magType": "ml",
+                "nst": 22,
+                "sig": 9,
+                "tsunami": 0,
+                "mag": 0.75,
+                "alert": null,
+                "gap": 86.0,
+                "rms": 0.2,
+                "place": "8 km NNW of Borrego Springs, CA",
+                "net": "ci",
+                "types": ",nearby-cities,origin,phase-data,scitech-link,",
+                "felt": null,
+                "cdi": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/ci39626234",
+                "ids": ",ci39626234,",
+                "time": 1690827196150,
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=ci39626234&format=geojson",
+                "updated": 1690827412723,
+                "status": "automatic"
+            }
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    -116.9486667,
+                    33.3855,
+                    10.03
+                ],
+                "type": "Point"
+            },
+            "id": "ci39626226",
+            "type": "Feature",
+            "properties": {
+                "dmin": 0.06966,
+                "code": "39626226",
+                "sources": ",ci,",
+                "tz": null,
+                "mmi": null,
+                "type": "earthquake",
+                "title": "M 0.6 - 8 km WNW of Palomar Observatory, CA",
+                "magType": "ml",
+                "nst": 16,
+                "sig": 5,
+                "tsunami": 0,
+                "mag": 0.56,
+                "alert": null,
+                "gap": 58.0,
+                "rms": 0.16,
+                "place": "8 km WNW of Palomar Observatory, CA",
+                "net": "ci",
+                "types": ",nearby-cities,origin,phase-data,scitech-link,",
+                "felt": null,
+                "cdi": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/ci39626226",
+                "ids": ",ci39626226,",
+                "time": 1690827172040,
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=ci39626226&format=geojson",
+                "updated": 1690828542243,
+                "status": "reviewed"
+            }
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    -122.8171692,
+                    38.8283348,
+                    1.77
+                ],
+                "type": "Point"
+            },
+            "id": "nc73918761",
+            "type": "Feature",
+            "properties": {
+                "dmin": 0.007419,
+                "code": "73918761",
+                "sources": ",nc,",
+                "tz": null,
+                "mmi": null,
+                "type": "earthquake",
+                "title": "M 0.7 - 8 km NW of The Geysers, CA",
+                "magType": "md",
+                "nst": 9,
+                "sig": 6,
+                "tsunami": 0,
+                "mag": 0.65,
+                "alert": null,
+                "gap": 102.0,
+                "rms": 0.02,
+                "place": "8 km NW of The Geysers, CA",
+                "net": "nc",
+                "types": ",nearby-cities,origin,phase-data,",
+                "felt": null,
+                "cdi": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/nc73918761",
+                "ids": ",nc73918761,",
+                "time": 1690826766130,
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=nc73918761&format=geojson",
+                "updated": 1690826862753,
+                "status": "automatic"
+            }
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    -152.1734,
+                    59.9402,
+                    89.1
+                ],
+                "type": "Point"
+            },
+            "id": "ak0239qwnusw",
+            "type": "Feature",
+            "properties": {
+                "dmin": null,
+                "code": "0239qwnusw",
+                "sources": ",ak,",
+                "tz": null,
+                "mmi": null,
+                "type": "earthquake",
+                "title": "M 1.6 - Southern Alaska",
+                "magType": "ml",
+                "nst": null,
+                "sig": 39,
+                "tsunami": 0,
+                "mag": 1.6,
+                "alert": null,
+                "gap": null,
+                "rms": 0.33,
+                "place": "Southern Alaska",
+                "net": "ak",
+                "types": ",origin,phase-data,",
+                "felt": null,
+                "cdi": null,
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/ak0239qwnusw",
+                "ids": ",ak0239qwnusw,",
+                "time": 1690826543203,
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=ak0239qwnusw&format=geojson",
+                "updated": 1690826643339,
+                "status": "automatic"
+            }
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    -122.7071686,
+                    38.767334,
+                    2.05
+                ],
+                "type": "Point"
+            },
+            "id": "nc73918756",
+            "type": "Feature",
+            "properties": {
+                "dmin": 0.006224,
+                "code": "73918756",
+                "sources": ",nc,",
+                "tz": null,
+                "mmi": null,
+                "type": "earthquake",
+                "title": "M 1.8 - 2 km WSW of Anderson Springs, CA",
+                "magType": "md",
+                "nst": 31,
+                "sig": 52,
+                "tsunami": 0,
+                "mag": 1.83,
+                "alert": null,
+                "gap": 59.0,
+                "rms": 0.08,
+                "place": "2 km WSW of Anderson Springs, CA",
+                "net": "nc",
+                "types": ",dyfi,nearby-cities,origin,phase-data,scitech-link,",
+                "felt": "1",
+                "cdi": "2",
+                "url": "https://earthquake.usgs.gov/earthquakes/eventpage/nc73918756",
+                "ids": ",nc73918756,",
+                "time": 1690826443100,
+                "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=nc73918756&format=geojson",
+                "updated": 1690827131170,
+                "status": "automatic"
+            }
+        }
+    ],
+    "metadata": {
+        "generated": 1690830000000,
+        "count": 15,
+        "api": "1.14.0",
+        "title": "USGS Earthquakes",
+        "url": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2023-07-31T20:00%2B02:00&endtime=2023-07-31T20:59%2B02:00",
+        "status": 200
+    },
+    "eq_hash_key": "6fe45ed53f92a0507ba7ed99b33b53a9",
+    "api_name": "usgs",
+    "bbox": [
+        -155.2829,
+        33.3203333,
+        0,
+        -116.3003333,
+        61.8445,
+        89.1
+    ],
+    "type": "FeatureCollection"
+}

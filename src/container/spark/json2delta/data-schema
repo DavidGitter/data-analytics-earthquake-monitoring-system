@@ -1,0 +1,236 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "features": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "geometry": {
+              "type": "object",
+              "properties": {
+                "coordinates": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ]
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "coordinates",
+                "type"
+              ]
+            },
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "properties": {
+              "type": "object",
+              "properties": {
+                "dmin": {
+                  "type": "number"
+                },
+                "code": {
+                  "type": "string"
+                },
+                "sources": {
+                  "type": "string"
+                },
+                "tz": {
+                  "type": "integer"
+                },
+                "mmi": {
+                  "type": "number"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "magType": {
+                  "type": "string"
+                },
+                "nst": {
+                  "type": "integer"
+                },
+                "sig": {
+                  "type": "integer"
+                },
+                "tsunami": {
+                  "type": "integer"
+                },
+                "mag": {
+                  "type": "number"
+                },
+                "alert": {
+                  "type": "string"
+                },
+                "gap": {
+                  "type": "number"
+                },
+                "rms": {
+                  "type": "number"
+                },
+                "place": {
+                  "type": "string"
+                },
+                "net": {
+                  "type": "string"
+                },
+                "types": {
+                  "type": "string"
+                },
+                "felt": {
+                  "type": "integer"
+                },
+                "cdi": {
+                  "type": "number"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "ids": {
+                  "type": "string"
+                },
+                "time": {
+                  "type": "integer"
+                },
+                "detail": {
+                  "type": "string"
+                },
+                "updated": {
+                  "type": "integer"
+                },
+                "status": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "dmin",
+                "code",
+                "sources",
+                "tz",
+                "mmi",
+                "type",
+                "title",
+                "magType",
+                "nst",
+                "sig",
+                "tsunami",
+                "mag",
+                "alert",
+                "gap",
+                "rms",
+                "place",
+                "net",
+                "types",
+                "felt",
+                "cdi",
+                "url",
+                "ids",
+                "time",
+                "detail",
+                "updated",
+                "status"
+              ]
+            }
+          },
+          "required": [
+            "geometry",
+            "id",
+            "type",
+            "properties"
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "generated": {
+          "type": "integer"
+        },
+        "count": {
+          "type": "integer"
+        },
+        "api": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "generated",
+        "count",
+        "api",
+        "title",
+        "url",
+        "status"
+      ]
+    },
+    "eq_hash_key": {
+      "type": "string"
+    },
+    "api_name": {
+      "type": "string"
+    },
+    "bbox": {
+      "type": "array",
+      "items": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "number"
+        }
+      ]
+    },
+    "type": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "features",
+    "metadata",
+    "eq_hash_key",
+    "api_name",
+    "bbox",
+    "type"
+  ]
+}
