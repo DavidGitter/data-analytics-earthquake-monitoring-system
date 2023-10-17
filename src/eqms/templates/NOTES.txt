@@ -1,0 +1,6 @@
+----------------------------------------------------------------------------------------
+Data-Analytics-Earthquake-Monitoring-System
+
+For more Information, please refer to the documentation:
+https://github.com/DavidGitter/data-analytics-earthquake-monitoring-system
+----------------------------------------------------------------------------------------
