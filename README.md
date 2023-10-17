@@ -47,7 +47,7 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 #### 2. Deploy the application
 * Apply the **"argocd-starter.yaml"** found in the "src"-folder of this repository
 ````
-kubectl apply -f argocd-starter.yaml -n argocd
+kubectl apply -f https://raw.githubusercontent.com/DavidGitter/data-analytics-earthquake-monitoring-system/main/src/argocd-starter.yaml -n argocd
 ````
 
 > **_NOTE:_**  To deploy the monitoring system via the argocd-starter the user needs access to the repository. Another way to install the system is manually through the web UI of ArgoCD. For more information on this, please visit https://argo-cd.readthedocs.io/en/stable/.
