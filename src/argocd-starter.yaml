@@ -8,8 +8,7 @@ metadata:
   labels:
     argocd.argoproj.io/secret-type: repository
 stringData:
-  url: https://github.com/DavidGitter/data-analytics-earthquake-monitoring-system.git
-  name: data-analytics-earthquake-monitoring-system
+  url: "https://github.com/DavidGitter/data-analytics-earthquake-monitoring-system.git" 
   type: git
 
 ---
@@ -22,7 +21,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/DavidGitter/data-analytics-earthquake-monitoring-system.git
+    repoURL: "https://github.com/DavidGitter/data-analytics-earthquake-monitoring-system.git"
     path: src/eqms
     targetRevision: HEAD
     helm:
