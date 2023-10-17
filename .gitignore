@@ -1,0 +1,6 @@
+#ignoring tmp files
+~$*
+*.tmp
+*.bkp
+*.tks
+*.drawio

@@ -1,0 +1,226 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    app.kubernetes.io/managed-by: Helm
+    meta.helm.sh/release-name: {{ .Release.Name }}
+    meta.helm.sh/release-namespace: {{ index .Values "minio-operator" "eqms" "namespace" | default "default" }}
+    linkerd.io/inject: enabled
+  name: {{ index .Values "minio-operator" "eqms" "namespace" | default "default" }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio-console-lb
+  namespace: {{ index .Values "minio-operator" "eqms" "namespace" | default "default" }}
+spec:
+  selector:
+    app: minio
+  ports:
+    - port: 9090
+      targetPort: 9090
+  type: LoadBalancer
+
+---
+
+# job to create the eqms bucket at startup and create a user with access key and secret access key to enter the bucket
+# using the minio mc client
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: init-minio
+  namespace: {{ index .Values "minio-operator" "eqms" "namespace" | default "default" }}
+spec:
+  template:
+    spec:
+      containers:
+      - name: init-script
+        image: dockersilas/eq-test-data:0.1.0
+        command: ["/etc/config/init-script.sh"]
+        volumeMounts:
+        - name: init-script-mount
+          mountPath: /etc/config
+
+      restartPolicy: OnFailure
+      volumes:
+        - name: init-script-mount
+          configMap:
+            name: init-script
+            defaultMode: 0500
+
+---
+
+## the init-minio script to run
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: init-script
+  namespace: {{ index .Values "minio-operator" "eqms" "namespace" | default "default" }}
+data:
+  init-script.sh: |
+    #!/bin/bash
+    response=""
+    returns=""
+    returnTmp=""
+    while [[ "$response" != *"200 OK"* ]];
+    do
+      echo "init-script: waiting for minio server to be ready..."
+      sleep 5
+      response=$(curl -s -I  http://storage-hl.{{ index $.Values "minio-operator" "eqms" "namespace" }}.svc.cluster.local:9000/minio/health/live 2>&1) #liveness probe
+    done
+    response=""
+    
+    echo "init-script: got liveness answer"
+    sleep 90 # sleep to prevent to fast requesting
+    echo "init-script: adding minio server..."
+    
+    # ---- Add MinIO ----
+
+    while [[ "$response" != *"successfully"* ]];
+    do
+      echo "init-script: waiting for buckets to be ready..."
+      sleep 5
+      response=$(mc alias set eqms http://minio.{{ index $.Values "minio-operator" "eqms" "namespace" }}.svc.cluster.local:80 {{ index .Values "minio-operator" "eqms" "admin" "name" }} {{ index .Values "minio-operator" "eqms" "admin" "password" }})
+    done
+    response=""
+
+    # ---- Create Users ----
+
+    #create api user
+    echo "init-script: initializing api user..."
+    returnTmp=$(mc admin user add eqms {{ index .Values "minio-operator" "eqms" "api" "name" }} {{ index .Values "minio-operator" "eqms" "api" "password" }} 2>&1 >/dev/null)
+    echo ${returnTmp}
+    returns="${returns} ${returnTmp}"
+
+    #create spark user
+    echo "init-script: initializing spark user..."
+    returnTmp=$(mc admin user add eqms {{ index .Values "minio-operator" "eqms" "spark" "name" }} {{ index .Values "minio-operator" "eqms" "spark" "password" }} 2>&1 >/dev/null)
+    echo ${returnTmp}
+    returns="${returns} ${returnTmp}"
+
+    #create trino user
+    echo "init-script: initializing trino user..."
+    returnTmp=$(mc admin user add eqms {{ index .Values "minio-operator" "eqms" "trino" "name" }} {{ index .Values "minio-operator" "eqms" "trino" "password" }} 2>&1 >/dev/null)
+    echo ${returnTmp}
+    returns="${returns} ${returnTmp}"
+
+    # ---- Create Buckets ----
+
+    #create eqms bucket
+    echo "init-script: initializing minio bucket..."
+    returnTmp=$(mc mb eqms/{{ index .Values "minio-operator" "eqms" "bucketName" }} 2>&1 >/dev/null)
+    echo ${returnTmp}
+    returns="${returns} ${returnTmp}"
+
+    # ---- Create Policys ----
+
+    #create apiwriteonly policy
+    echo "init-script: creating apiwriteonly policy for api user..."
+    returnTmp=$(mc admin policy create eqms apiwriteonly /etc/config/api-iam.json 2>&1 >/dev/null)
+    echo ${returnTmp}
+    returns="${returns} ${returnTmp}"
+
+    #create eqmsreadwrite policy
+    echo "init-script: creating eqmsreadwrite policy for spark user..."
+    returnTmp=$(mc admin policy create eqms eqmsreadwrite /etc/config/spark-iam.json 2>&1 >/dev/null)
+    echo ${returnTmp}
+    returns="${returns} ${returnTmp}"
+
+    #create deltaread policy
+    echo "init-script: creating deltaread policy for trino user..."
+    returnTmp=$(mc admin policy create eqms deltaread /etc/config/trino-iam.json 2>&1 >/dev/null)
+    echo ${returnTmp}
+    returns="${returns} ${returnTmp}"
+
+    # ---- Assign Policys to Users ----
+
+    #give api user write only permissions to eqms bucket
+    echo "init-script: setting writeonly policy for api user..."
+    returnTmp=$(mc admin policy attach eqms apiwriteonly --user {{ index .Values "minio-operator" "eqms" "api" "name" }} 2>&1 >/dev/null) # only available in newer minio versions
+    echo ${returnTmp}
+    returns="${returns} ${returnTmp}"
+
+    #give spark user eqmsreadwrite permissions to eqms bucket
+    echo "init-script: setting writeonly policy for spark user..."
+    returnTmp=$(mc admin policy attach eqms eqmsreadwrite --user {{ index .Values "minio-operator" "eqms" "spark" "name" }} 2>&1 >/dev/null) # only available in newer minio versions
+    echo ${returnTmp}
+    returns="${returns} ${returnTmp}"
+
+    #give trino user deltaread permissions to eqms bucket
+    echo "init-script: setting writeonly policy for deltaread user..."
+    returnTmp=$(mc admin policy attach eqms deltaread --user {{ index .Values "minio-operator" "eqms" "trino" "name" }} 2>&1 >/dev/null) # only available in newer minio versions
+    echo ${returnTmp}
+    returns="${returns} ${returnTmp}"
+
+    # ---- Experimental ----
+
+    #add webhook for sparkjob spawner
+    #echo "init-script: adding "put" event hook for spark job spawner..."
+    #returnTmp=$(mc event add --event "put" eqms/eqms arn:aws:sqs::SPARKJOBSPAWNER:webhook 2>&1 >/dev/null)
+    #echo ${returnTmp}
+    #returns="${returns} ${returnTmp}"
+
+    
+    {{ if .Values.eqms.useTestData }}
+    # ---- Upload Test Data ----
+    echo "init-script: uploading test data..."
+    mc cp /test-data/23-01-01_to_23-02-01.json eqms/eqms/apis-new/usgs/test-data/23-01-01_to_23-02-01.json
+    mc cp /test-data/23-02-01_to_23-03-01.json eqms/eqms/apis-new/usgs/test-data/23-02-01_to_23-03-01.json
+    mc cp /test-data/23-03-01_to_23-04-01.json eqms/eqms/apis-new/usgs/test-data/23-03-01_to_23-04-01.json
+    mc cp /test-data/23-04-01_to_23-05-01.json eqms/eqms/apis-new/usgs/test-data/23-04-01_to_23-05-01.json
+    mc cp /test-data/23-05-01_to_23-06-01.json eqms/eqms/apis-new/usgs/test-data/23-05-01_to_23-06-01.json
+    mc cp /test-data/23-06-01_to_23-07-01.json eqms/eqms/apis-new/usgs/test-data/23-06-01_to_23-07-01.json
+    mc cp /test-data/23-07-01_to_23-08-04.json eqms/eqms/apis-new/usgs/test-data/23-07-01_to_23-08-04.json
+    {{ end }}
+
+    # ---- Final Error Check ----
+
+    # check for "error" (incase sensitive) in command repsonses
+    if echo $returns | grep -iqF ERROR
+    then
+      echo "init-script: an error occured during the executing of the commands, restarting..."
+      sleep 5
+      exit 1
+    else
+      echo "init-script: the script executed successfull"
+      sleep 5
+      exit 0
+    fi
+
+    # ---- IAMs ----
+
+  api-iam.json: |
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Action": ["s3:PutObject"],
+          "Resource": ["arn:aws:s3:::{{ index .Values "minio-operator" "eqms" "bucketName" }}/*"]
+        }
+      ]
+    }
+
+  spark-iam.json: |
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Action": ["s3:*"],
+          "Resource": ["arn:aws:s3:::{{ index .Values "minio-operator" "eqms" "bucketName" }}/*"]
+        }
+      ]
+    }
+
+  trino-iam.json: |
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Action": ["s3:*"],
+          "Resource": ["arn:aws:s3:::{{ index .Values "minio-operator" "eqms" "bucketName" }}/*"]
+        }
+      ]
+    }

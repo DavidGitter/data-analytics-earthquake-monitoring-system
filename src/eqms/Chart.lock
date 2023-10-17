@@ -1,0 +1,21 @@
+dependencies:
+- name: minio-operator
+  repository: https://charts.wener.tech
+  version: 4.3.7
+- name: strimzi-kafka-operator
+  repository: https://strimzi.io/charts
+  version: 0.35.1
+- name: spark-operator
+  repository: https://googlecloudplatform.github.io/spark-on-k8s-operator
+  version: 1.1.27
+- name: hive-metastore
+  repository: https://gradiant.github.io/bigdata-charts
+  version: 0.1.3
+- name: trino
+  repository: https://trinodb.github.io/charts
+  version: 0.11.0
+- name: superset
+  repository: http://apache.github.io/superset/
+  version: 0.10.5
+digest: sha256:f841622934690400f9df6dcfc4420915e479307fdccf87a610f24eed80f96284
+generated: "2023-08-15T11:38:24.7305386+02:00"

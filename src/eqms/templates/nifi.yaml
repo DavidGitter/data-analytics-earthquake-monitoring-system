@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    app.kubernetes.io/managed-by: Helm
+    meta.helm.sh/release-name: {{ .Release.Name }}
+    meta.helm.sh/release-namespace: {{ .Values.nifi.eqms.namespace | default "default" }}
+    linkerd.io/inject: enabled
+
+  name: {{ .Values.nifi.eqms.namespace | default "default" }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: nifi-credentials
+  namespace: {{ .Values.nifi.eqms.namespace | default "default" }}
+data:
+  nifi_password: YWRtaW4=
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nifi
+  namespace: {{ .Values.nifi.eqms.namespace | default "default" }}
+spec:
+  replicas: {{ .Values.nifi.eqms.replicas | default 3 }}
+  selector:
+    matchLabels:
+      app: nifi
+  template:
+    metadata:
+      labels:
+        app: nifi
+    spec:
+      topologySpreadConstraints:
+      - maxSkew: 1                          # max pod count diff between nodes
+        topologyKey: kubernetes.io/hostname # topology key hostname
+        whenUnsatisfiable: DoNotSchedule    # keep pods pendig when failing
+        labelSelector:
+          matchLabels:
+            app: nifi
+
+      containers:
+      - name: nifi
+        image: dockersilas/eq-nifi:0.1.0
+        ports:
+        - containerPort: 8080
+        imagePullPolicy: Always
+
+        env:
+          - name: NIFI_WEB_HTTP_PORT
+            value: "8080"
+          - name: SINGLE_USER_CREDENTIALS_USERNAME
+            value: "admin"
+          - name: SINGLE_USER_CREDENTIALS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: nifi_password
+                name: nifi-credentials
+          - name: EQMS_KAFKA_NAMESPACE
+            value: {{ index .Values "strimzi-kafka-operator" "namespace" }}
+
+---
+
+{{ if .Values.nifi.eqms.httpLoadBalancer }}
+# load balancer for http web ui
+apiVersion: v1
+kind: Service
+metadata:
+  name: nifi-lb
+  namespace: {{ .Values.nifi.eqms.namespace | default "default" }}
+spec:
+  selector:
+    app: nifi
+  ports:
+  - port: 8081
+    targetPort: 8080
+  type: LoadBalancer
+{{ end }}

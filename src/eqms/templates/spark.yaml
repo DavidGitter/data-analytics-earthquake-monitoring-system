@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    app.kubernetes.io/managed-by: Helm
+    meta.helm.sh/release-name: {{ .Release.Name }}
+    meta.helm.sh/release-namespace: {{ index .Values "spark-operator" "sparkJobNamespace" | default "default" }}
+    linkerd.io/inject: enabled
+
+  name: {{ index .Values "spark-operator" "sparkJobNamespace" | default "default" }}
+
+---
+
+apiVersion: "sparkoperator.k8s.io/v1beta2"
+kind: SparkApplication
+metadata:
+  name: json2delta-v1
+  namespace: {{ index .Values "spark-operator" "sparkJobNamespace" | default "default" }}
+spec:
+  type: Python
+  pythonVersion: "3"
+  mode: cluster
+  image: dockersilas/json2delta:0.2.0
+  imagePullPolicy: Always
+  mainApplicationFile: local:///opt/spark/app.py
+  sparkVersion: "3.1.1"
+  restartPolicy:
+    type: Always
+    # onFailureRetries: 3
+    # onFailureRetryInterval: 10
+    # onSubmissionFailureRetries: 5
+    # onSubmissionFailureRetryInterval: 20
+
+  driver:
+    cores: 1
+    coreLimit: "1200m"
+    memory: "512m"
+    labels:
+      version: 3.1.1
+    serviceAccount: default
+    env: #not impl yet
+      - name: spark.executorEnv.SPARK_MINIO_USER_API_NAME
+        value: {{ index .Values "minio-operator" "eqms" "api" "name" }}
+      - name: spark.executorEnv.SPARK_MINIO_USER_API_PASSWORD
+        value: {{ index .Values "minio-operator" "eqms" "api" "password" }}
+      - name: spark.executorEnv.SPARK_MINIO_ENDPOINT
+        value: http://minio.{{ index .Values "minio-operator" "eqms" "namespace" }}.svc.cluster.local:80
+
+  executor:
+    cores: 1
+    instances: 1
+    memory: "512m"
+    labels:
+      version: 3.1.1
+    env:
+      - name: spark.executorEnv.SPARK_MINIO_USER_API_NAME
+        value: {{ index .Values "minio-operator" "eqms" "api" "name" }}
+      - name: spark.executorEnv.SPARK_MINIO_USER_API_PASSWORD
+        value: {{ index .Values "minio-operator" "eqms" "api" "password" }}
+      - name: spark.executorEnv.SPARK_MINIO_ENDPOINT
+        value: http://minio.{{ index .Values "minio-operator" "eqms" "namespace" }}.svc.cluster.local:80

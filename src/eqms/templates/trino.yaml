@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    app.kubernetes.io/managed-by: Helm
+    meta.helm.sh/release-name: {{ .Release.Name }}
+    meta.helm.sh/release-namespace: {{ index .Values "trino" "eqms" "namespace" | default "default" }}
+    linkerd.io/inject: enabled
+
+  name: {{ index .Values "trino" "eqms" "namespace" | default "default" }}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: trino
+  name: eqms-trino
+  namespace: default
+spec:
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+    targetPort: http
+  selector:
+    app: trino
+    component: coordinator
+  type: ClusterIP
+
+# ---
+
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: {{ .Release.Name }}-eqms-kafka-catalog
+#   labels:
+#     app: trino #{{ template "trino.name" . }}
+#     chart: {{ template "trino.chart" . }}
+#     release: {{ .Release.Name }}
+#     heritage: {{ .Release.Service }}
+#     role: catalogs
+#     costum: "true"
+# data:
+#   tpch.properties: |
+#     connector.name=tpch
+#     tpch.splits-per-node=4
+#   tpcds.properties: |
+#     connector.name=tpcds
+#     tpcds.splits-per-node=4
+#   kafka.properties: |
+#     connector.name=kafka
+#     kafka.table-names="{{ template "list_to_string" .Values.eqms.apis }}"
+#     kafka.nodes={{ index $.Values "strimzi-kafka-operator" "namespace" }}-bootstrap.{{ index $.Values "strimzi-kafka-operator" "namespace" }}.svc.cluster.local:9092
+#     kafka.hide-internal-columns=false
+

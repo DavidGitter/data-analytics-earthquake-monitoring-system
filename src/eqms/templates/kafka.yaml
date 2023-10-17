@@ -1,0 +1,206 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    app.kubernetes.io/managed-by: Helm
+    meta.helm.sh/release-name: {{ .Release.Name }}
+    meta.helm.sh/release-namespace: {{ index .Values "strimzi-kafka-operator" "namespace" | default "default" }}
+    linkerd.io/inject: enabled
+
+  name: {{ index .Values "strimzi-kafka-operator" "namespace" | default "default" }}
+
+---
+
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  name: eqms
+  namespace: {{ index .Values "strimzi-kafka-operator" "namespace" | default "default" }}
+  labels:
+    strimzi.io/cluster: {{ .Release.Name }}-kafka-cluster
+spec:
+  kafka:
+    version: 3.4.0
+    replicas: {{ index .Values "strimzi-kafka-operator" "eqms" "replicas" "kafka" | default 3 }}
+    listeners:
+      {{ if index .Values "strimzi-kafka-operator" "eqms" "httpLoadBalancer"}}
+      - name: plain
+        port: 9092
+        type: internal
+        tls: false
+      {{ end }}
+      - name: tls
+        port: 9093
+        type: internal
+        tls: true
+    config:
+      offsets.topic.replication.factor: 1
+      transaction.state.log.replication.factor: 1
+      transaction.state.log.min.isr: 1
+      default.replication.factor: 1
+      min.insync.replicas: 1
+      inter.broker.protocol.version: "3.4"
+    storage:
+      type: persistent-claim
+      size: {{ index .Values "strimzi-kafka-operator" "eqms" "size" "kafka" | default 3 }}
+      class: {{ .Values.eqms.storage.class }}
+    template:
+      pod:
+        securityContext:
+          runAsUser: 0
+          fsGroup: 0
+  zookeeper:
+    replicas: {{ index .Values "strimzi-kafka-operator" "eqms" "replicas" "zookeeper" | default 3 }}
+    storage:
+      type: persistent-claim
+      size: {{ index .Values "strimzi-kafka-operator" "eqms" "size" "zookeeper" | default 3 }}
+      class: {{ .Values.eqms.storage.class }}
+  entityOperator:
+    topicOperator: {}
+    userOperator: {}
+
+
+{{ range .Values.eqms.apis }}
+
+---
+
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  labels:
+    strimzi.io/cluster: eqms
+  name: {{ .name }}
+  namespace: {{ index $.Values "strimzi-kafka-operator" "namespace" | default "default" }}
+spec:
+  config: {}
+  partitions: 1
+  replicas: {{ index $.Values "strimzi-kafka-operator" "eqms" "replicas" "topics" | default 3 }}
+  topicName: {{ .name }}
+
+---
+
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaConnect
+metadata:
+  name: {{ .name }}-s3-sink
+  namespace: {{ index $.Values "strimzi-kafka-operator" "namespace" | default "default" }}
+  annotations:
+    strimzi.io/use-connector-resources: "true" # not using rest api
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "2"
+spec:
+  replicas: {{ index $.Values "strimzi-kafka-operator" "eqms" "replicas" "s3sinks" | default 3 }}
+  bootstrapServers: {{ index $.Values "strimzi-kafka-operator" "namespace" }}-bootstrap:9092
+  image: dockersilas/s3-sink-connector:0.1.0
+  config:
+    config.storage.replication.factor: 1
+    offset.storage.replication.factor: 1
+    status.storage.replication.factor: 1
+    
+---
+
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaConnector
+metadata:
+  name: {{ .name }}-s3-sink
+  namespace: {{ index $.Values "strimzi-kafka-operator" "namespace" | default "default" }}
+  labels:
+    strimzi.io/cluster: {{ .name }}-s3-sink
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "3"
+spec:
+  class: "io.confluent.connect.s3.S3SinkConnector"
+  tasksMax: 1
+  autoRestart:
+    enabled: true
+  config:
+    name: {{ .name }}-s3-sink
+    connector.class: io.confluent.connect.s3.S3SinkConnector
+    storage.class: io.confluent.connect.s3.storage.S3Storage
+
+    #Json Format
+    format.class: io.confluent.connect.s3.format.json.JsonFormat
+    key.converter: org.apache.kafka.connect.json.JsonConverter
+    value.converter: org.apache.kafka.connect.json.JsonConverter
+    value.converter.schemas.enable: false
+
+    s3.bucket.name: {{ index $.Values "minio-operator" "eqms" "bucketName" }}
+    topics: {{ .name }}
+    flush.size: 1
+
+    s3.part.retries: 9999
+    s3.retry.backoff.ms: 10000
+
+    aws.access.key.id : {{ index $.Values "minio-operator" "eqms" "api" "name" }}
+    aws.secret.access.key: {{ index $.Values "minio-operator" "eqms" "api" "password" }}
+    s3.region: "eu-central-1"
+    store.url: "http://minio.{{ index $.Values "minio-operator" "eqms" "namespace" }}.svc.cluster.local:80"
+    topics.dir: "apis-new"
+
+{{ end }}
+
+---
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: wait-for-minio
+  namespace: {{ index $.Values "strimzi-kafka-operator" "namespace" | default "default" }}
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "1"
+spec:
+  template:
+    spec:
+      containers:
+      - name: check-script
+        image: minio/mc:latest
+        command: ["/etc/config/minio-ready.sh"]
+        volumeMounts:
+        - name: check-script-mount
+          mountPath: /etc/config
+
+      restartPolicy: OnFailure
+      volumes:
+        - name: check-script-mount
+          configMap:
+            name: minio-check
+            defaultMode: 0500
+
+---
+
+## wait for minio script
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: minio-check
+  namespace: {{ index $.Values "strimzi-kafka-operator" "namespace" | default "default" }}
+data:
+  minio-ready.sh: |
+    #!/bin/bash
+    response=""
+    returns=""
+    returnTmp=""
+    while [[ "$response" != *"200 OK"* ]];
+    do
+      echo "minio-check: waiting for minio server to be ready..."
+      sleep 5
+      response=$(curl -s -I  http://storage-hl.{{ index $.Values "minio-operator" "eqms" "namespace" }}.svc.cluster.local:9000/minio/health/live 2>&1) #liveness probe
+    done
+    response=""
+    
+    echo "minio-check: got liveness answer"
+    echo "minio-check: requesting minio api user..."
+    
+    while [[ "$response" != *"successfully"* ]];
+    do
+      echo "minio-check: waiting for api user to be ready..."
+      sleep 20
+      response=$(mc alias set eqms http://minio.{{ index $.Values "minio-operator" "eqms" "namespace" }}.svc.cluster.local:80 {{ index .Values "minio-operator" "eqms" "api" "name" }} {{ index .Values "minio-operator" "eqms" "api" "password" }})
+    done
+    response=""
+
+    echo "minio-check: api user found. finished waiting."
+
+    exit 0
