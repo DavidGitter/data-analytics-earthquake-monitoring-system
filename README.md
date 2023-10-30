@@ -73,7 +73,7 @@ kubectl get svc --all-namespaces
 ````
 * To access the UI for a specific service, enter the adress gathered from the above command with the port of it in your browser with the format: http://ext-adress-of-service:port
 
-> **_NOTE:_**  Due to a bug in the image (as of 09/10/23), access to the Superset interface needs to be done through port forwarding.
+> **_NOTE:_**  Due to a bug in the superset image (as of 09/10/23), access to the superset interface perhaps needs to be done through port forwarding.
 
 #### 2. Workflow
 The system will automaticly pull an earthquake event from the [USGS-API](https://earthquake.usgs.gov/fdsnws/event/1/) once every full hour from the start of the application.
