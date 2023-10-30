@@ -1,6 +1,6 @@
 ### Chart specific configs
 
-# Application Configurations
+## GENERAL Application Configurations
 eqms: #eqms specific values
   storage:
     class: "tanzu"
@@ -8,6 +8,7 @@ eqms: #eqms specific values
     - name: usgs
   useTestData: true
 
+## NIFI
 nifi:
   eqms:
     #nifi app namespace
@@ -17,6 +18,7 @@ nifi:
     #nifi replica count
     replicas: 1                 #default: 3
 
+## KAFKA OPERATOR
 strimzi-kafka-operator:
   namespace: "eqms-kafka"
   watchNamespaces:
@@ -36,6 +38,7 @@ strimzi-kafka-operator:
       kafka: 10Gi
       zookeeper: 10Gi
 
+## MINIO OPERATOR
 minio-operator:
   eqms:
     namespace: eqms-minio
@@ -152,6 +155,7 @@ minio-operator:
       ## Refer Kubernetes documentation for details https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass/
       priorityClassName: ""
 
+## SPARK OPERATOR
 spark-operator:
   serviceAccounts:
     spark:
@@ -166,9 +170,7 @@ spark-operator:
       name: "default"
   sparkJobNamespace: "eqms-spark" #TODO: duplicate
 
-# hive-metastore:
-
-
+## TRINO
 trino:
   eqms:
     namespace: "eqms-trino"
@@ -186,6 +188,7 @@ trino:
       hive.s3.ssl.enabled=false
       hive.s3.path-style-access=true
 
+## SUPERSET
 superset:
   # -- Specify service account name to be used
   serviceAccountName: default
@@ -207,15 +210,15 @@ superset:
   supersetNode:
     connections:
       db_host: 'eqms-postgresql.default.svc.cluster.local' #BUG: static adress -> should be {{ .Release.Name }}-postg.....
-      db_port: "5432"
-      db_user: hive
-      db_pass: hive
-      db_name: metastore
+      db_port: "5432" 
+      db_user: hive # not changeable right now
+      db_pass: hive # not changeable right now
+      db_name: metastore # not changeable right now
 
   image:
-    tag: "latest" # change to 2.1.0 for login fix -> requires new build of complete dashboard
+    tag: "de9515c29486505e81b530344d564658aa43e153" # change to 2.1.0 for login fix -> requires new build of complete dashboard
 
-  init:
+  init: # not changeable right now
     adminUser:
       username: "admin"
       password: "change-me"
