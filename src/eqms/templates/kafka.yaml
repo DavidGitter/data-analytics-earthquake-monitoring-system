@@ -155,7 +155,7 @@ spec:
     spec:
       containers:
       - name: check-script
-        image: minio/mc:latest
+        image: minio/mc:RELEASE.2023-09-07T22-48-55Z
         command: ["/etc/config/minio-ready.sh"]
         volumeMounts:
         - name: check-script-mount
