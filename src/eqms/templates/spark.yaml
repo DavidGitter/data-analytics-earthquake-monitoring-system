@@ -32,6 +32,18 @@ spec:
     # onSubmissionFailureRetryInterval: 20
 
   driver:
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: 4040
+      initialDelaySeconds: 60
+      periodSeconds: 30
+    readinessProbe:
+      httpGet:
+        path: /readiness
+        port: 4040
+      initialDelaySeconds: 60
+      periodSeconds: 10
     cores: 1
     coreLimit: "1200m"
     memory: "512m"
@@ -47,6 +59,18 @@ spec:
         value: http://minio.{{ index .Values "minio-operator" "eqms" "namespace" }}.svc.cluster.local:80
 
   executor:
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: 4040
+      initialDelaySeconds: 60
+      periodSeconds: 30
+    readinessProbe:
+      httpGet:
+        path: /readiness
+        port: 4040
+      initialDelaySeconds: 60
+      periodSeconds: 10
     cores: 1
     instances: 1
     memory: "512m"
