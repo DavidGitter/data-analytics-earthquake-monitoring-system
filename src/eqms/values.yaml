@@ -172,6 +172,11 @@ spark-operator:
 
 ## TRINO
 trino:
+  image:
+    repository: trinodb/trino
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart version.
+    tag: "0.13.0"
   eqms:
     namespace: "eqms-trino"
   additionalCatalogs:
