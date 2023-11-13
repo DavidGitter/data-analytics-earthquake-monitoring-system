@@ -3,7 +3,7 @@
 ## GENERAL Application Configurations
 eqms: #eqms specific values
   storage:
-    class: "tanzu"
+    class: "standard" # enter your storage class here std: tanzu
   apis:
     - name: usgs
   useTestData: true
@@ -43,16 +43,19 @@ minio-operator:
   eqms:
     namespace: eqms-minio
     bucketName: "eqms"
-    #TODO: embedd into user field
+    # minio admin account
     admin:
       name: "minio"
       password: "change-me"
+    # minio kafka-connect account
     api:
       name: "eqms-api"
       password: "change-me"
+    # minio spark account
     spark:
       name: "eqms-spark"
       password: "change-me"
+    # minio trino account
     trino:
       name: "eqms-trino"
       password: "change-me"
@@ -82,7 +85,7 @@ minio-operator:
           ## size specifies the capacity per volume
           size: 10Gi
           ## storageClass specifies the storage class name to be used for this pool
-          storageClassName: "tanzu"
+          storageClassName: "standard" # std: tanzu
           ## Used to specify a toleration for a pod
           tolerations: { }
           ## nodeSelector parameters for MinIO Pods. It specifies a map of key-value pairs. For the pod to be
@@ -179,10 +182,8 @@ trino:
     tag: "426"
   eqms:
     namespace: "eqms-trino"
-  additionalCatalogs:
-
-    #TODO: redundant, add user trino/superset
-    #BUG: static adress
+  additionalCatalogs: # trino delta lake table catalog
+    #TODO: redundant, add user trino/superset, static adress
     delta_lake: |-
       connector.name=delta_lake
       hive.metastore.uri=thrift://eqms-hive-metastore.default.svc.cluster.local:9083
