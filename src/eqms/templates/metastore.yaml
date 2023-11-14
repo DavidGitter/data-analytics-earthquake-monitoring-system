@@ -13,7 +13,7 @@ metadata:
   name: data-{{ .Release.Name }}-postgresql-0
   namespace: default
 spec:
-  storageClassName: {{ index .Values "eqms" "storage" "class" | default "default" }}
+  storageClassName: {{ index .Values "eqms" "storage" "class" }}
   accessModes:
   - ReadWriteOnce
   resources:
