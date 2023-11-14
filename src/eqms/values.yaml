@@ -3,7 +3,7 @@
 ## GENERAL Application Configurations
 eqms: #eqms specific values
   storage:
-    class: "standard" # enter your storage class here std: tanzu
+    class: ""
   apis:
     - name: usgs
   useTestData: true
@@ -85,7 +85,7 @@ minio-operator:
           ## size specifies the capacity per volume
           size: 10Gi
           ## storageClass specifies the storage class name to be used for this pool
-          storageClassName: "standard" # std: tanzu
+          storageClassName: ""
           ## Used to specify a toleration for a pod
           tolerations: { }
           ## nodeSelector parameters for MinIO Pods. It specifies a map of key-value pairs. For the pod to be
