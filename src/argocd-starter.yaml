@@ -27,6 +27,11 @@ spec:
     helm:
       valueFiles:
         - values.yaml
+      parameters:
+      - name: "eqms.storage.class"
+        value: "standard"            # insert your storage-class-name here
+      - name: "minio-operator.tenants[0].pools[0].storageClassName"
+        value: "standard"            # insert your storage-class-name here
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: default
